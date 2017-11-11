@@ -2,13 +2,12 @@ package nz.zhang.aucklandtransportwear
 
 import android.Manifest
 import android.content.pm.PackageManager
+import android.content.res.Resources
 import android.location.Location
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.MapFragment
 import com.google.android.gms.maps.OnMapReadyCallback
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.MarkerOptions
 
 import android.os.Bundle
 import android.support.v4.app.ActivityCompat
@@ -24,10 +23,14 @@ import com.google.android.gms.location.FusedLocationProviderClient
 
 import kotlinx.android.synthetic.main.activity_maps.*
 import com.google.android.gms.location.LocationServices
+import com.google.android.gms.maps.model.*
+import nz.zhang.aucklandtransportwear.atapi.ATAPI
+import nz.zhang.aucklandtransportwear.atapi.Stop
+import nz.zhang.aucklandtransportwear.atapi.listener.StopsListListener
 
-const val DEFAULT_ZOOM = 15f
+const val DEFAULT_ZOOM = 16.5f
 
-class MapsActivity : WearableActivity(), OnMapReadyCallback {
+class MapsActivity : WearableActivity(), OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
 
     /**
      * Map is initialized when it's fully loaded and ready to be used.
@@ -91,6 +94,22 @@ class MapsActivity : WearableActivity(), OnMapReadyCallback {
         // Map is ready to be used.
         gMap = googleMap
 
+        try {
+            // Customise the styling of the base map using a JSON object defined
+            // in a raw resource file.
+            val success = googleMap.setMapStyle(
+                    MapStyleOptions.loadRawResourceStyle(
+                            this, R.raw.maps_style))
+
+            if (!success) {
+                Log.e("MapsStyle", "Style parsing failed.");
+            }
+        } catch (e: Resources.NotFoundException) {
+            Log.e("MapsStyle", "Can't find style. Error: ", e);
+        }
+
+        gMap.setOnMarkerClickListener(this)
+
         // Inform user how to close app (Swipe-To-Close).
         val duration = Toast.LENGTH_LONG
         val toast = Toast.makeText(getApplicationContext(), R.string.intro_text, duration)
@@ -141,13 +160,18 @@ class MapsActivity : WearableActivity(), OnMapReadyCallback {
                 System.out.println("Location allowed, now asking for location")
                 val locationResult = fusedLocationProviderClient.lastLocation
                 locationResult.addOnCompleteListener(this) { task ->
-                    // Don't need to check success as we already have a default location!
-                    System.out.println("Gotlocation")
-                    // Set the map's camera position to the current location of the device.
-                    lastKnownLocation = task.result
-                    gMap.moveCamera(CameraUpdateFactory.newLatLngZoom(
-                            LatLng(lastKnownLocation.latitude,
-                                    lastKnownLocation.longitude), DEFAULT_ZOOM))
+                    if (task.result != null) {
+                        System.out.println("Gotlocation")
+                        // Set the map's camera position to the current location of the device.
+                        lastKnownLocation = task.result
+                        gMap.moveCamera(CameraUpdateFactory.newLatLngZoom(
+                                LatLng(lastKnownLocation.latitude,
+                                        lastKnownLocation.longitude), DEFAULT_ZOOM))
+                    } else {
+                        gMap.moveCamera(CameraUpdateFactory.newLatLngZoom(
+                                LatLng(lastKnownLocation.latitude,
+                                        lastKnownLocation.longitude), DEFAULT_ZOOM))
+                    }
                 }
             } else {
                 // Move to default location
@@ -155,11 +179,38 @@ class MapsActivity : WearableActivity(), OnMapReadyCallback {
                         LatLng(lastKnownLocation.latitude,
                                 lastKnownLocation.longitude), DEFAULT_ZOOM))
             }
+            populateStops()
         } catch (e: SecurityException) {
             Log.e("Exception: %s", e.message)
         }
 
     }
 
+    private fun populateStops() {
+        ATAPI().getStopsGeo(lastKnownLocation.latitude, lastKnownLocation.longitude, 1000, object :StopsListListener {
+            override fun update(stops: List<Stop>?) {
+                if (stops != null) {
+                    stops.forEach { stop:Stop ->
+                        val marker = gMap.addMarker(MarkerOptions()
+                                .position(LatLng(stop.stop_lat, stop.stop_lon))
+                                .title(stop.stop_name)
+                                .icon(BitmapDescriptorFactory.fromResource(R.drawable.bus_pin)))
+                        marker.tag = stop
+                    }
+                } else {
+                    Log.e("AT API", "Failed to get stops")
+                }
+            }
+
+        })
+    }
+
+    override fun onMarkerClick(p0: Marker?): Boolean {
+        if (p0 != null) {
+            val stop = p0.tag as Stop
+            Toast.makeText(this, "Clicked: ${stop.stop_name}", Toast.LENGTH_SHORT).show()
+        }
+        return true
+    }
 
 }

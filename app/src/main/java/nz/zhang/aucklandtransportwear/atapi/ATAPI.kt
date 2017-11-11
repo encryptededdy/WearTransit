@@ -1,9 +1,6 @@
 package nz.zhang.aucklandtransportwear.atapi
 
 import android.util.Log
-import com.google.gson.Gson
-import nz.zhang.aucklandtransportwear.R
-import nz.zhang.aucklandtransportwear.R.string.gtfs_key
 import nz.zhang.aucklandtransportwear.atapi.listener.StopsListListener
 import retrofit2.Call
 import retrofit2.Callback
