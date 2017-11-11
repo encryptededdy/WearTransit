@@ -62,7 +62,6 @@
                 android:layout_height="38dp"
                 android:drawableLeft="@drawable/ic_search_white_24dp"
                 android:drawablePadding="0dp"
-                android:enabled="false"
                 android:paddingBottom="0dp"
                 android:paddingLeft="5dp"
                 android:paddingTop="0dp"
