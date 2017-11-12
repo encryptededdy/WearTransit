@@ -1,7 +1,10 @@
 package nz.zhang.aucklandtransportwear
 
 import android.os.Bundle
+import android.support.v7.widget.LinearLayoutManager
 import android.support.wearable.activity.WearableActivity
+import android.view.View
+import com.jakewharton.threetenabp.AndroidThreeTen
 import kotlinx.android.synthetic.main.activity_stop.*
 import nz.zhang.aucklandtransportwear.atapi.ATAPI
 import nz.zhang.aucklandtransportwear.atapi.ServiceRT
@@ -16,10 +19,12 @@ class StopActivity : WearableActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_stop)
-
+        AndroidThreeTen.init(this)
         // Enables Always-on
         setAmbientEnabled()
         stop = intent.getParcelableExtra("stop")
+        serviceRecycler.layoutManager = LinearLayoutManager(this)
+        serviceRecycler.isNestedScrollingEnabled = false
         populateMainFields()
         populateRTBoard()
     }
@@ -34,12 +39,14 @@ class StopActivity : WearableActivity() {
     }
 
     private fun populateRTBoard() {
-        ATAPI().getRTBoard(stop, 12, object:RTBoardListener {
+        ATAPI().getRTBoard(stop, 24, object:RTBoardListener {
             override fun update(services: List<ServiceRT>?) {
                 if (services != null) {
-                    services.forEach { service ->
-                        System.out.println("Service ${service.destinationDisplay} arriving at ${service.expectedArrivalTime}, scheduled: ${service.scheduledArrivalTime}")
-                    }
+                    System.out.println("Populating services...")
+                    loadingServices.visibility = View.GONE
+                    val adapter = ServiceRTAdapter(this@StopActivity, services.sorted())
+                    serviceRecycler.adapter = adapter
+                    serviceRecycler.invalidate()
                 }
             }
 
