@@ -1,6 +1,7 @@
 package nz.zhang.aucklandtransportwear
 
 import android.Manifest
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.content.res.Resources
 import android.location.Location
@@ -219,7 +220,9 @@ class MapsActivity : WearableActivity(), OnMapReadyCallback, GoogleMap.OnMarkerC
     override fun onMarkerClick(p0: Marker?): Boolean {
         if (p0 != null) {
             val stop = p0.tag as Stop
-            Toast.makeText(this, "Clicked: ${stop.stop_name}", Toast.LENGTH_SHORT).show()
+            val stopIntent = Intent(this, StopActivity::class.java)
+            stopIntent.putExtra("stop", stop)
+            startActivity(stopIntent)
         }
         return true
     }

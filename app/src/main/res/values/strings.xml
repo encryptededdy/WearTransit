@@ -7,4 +7,5 @@
     <string name="hello_world">Hello Square World!</string>
     <string name="title_activity_maps">Map</string>
     <string name="intro_text">Swipe edge to exit the map.</string>
+    <string name="title_activity_stop">StopActivity</string>
 </resources>

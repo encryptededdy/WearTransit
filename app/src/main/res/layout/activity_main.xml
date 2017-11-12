@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/dark_grey"
+    android:background="#1A237E"
     android:padding="@dimen/box_inset_layout_padding"
     tools:context="nz.zhang.aucklandtransportwear.MainActivity"
     tools:deviceIds="wear">
@@ -17,49 +17,60 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp">
+            android:orientation="vertical">
 
-            <Space
-                android:layout_width="match_parent"
-                android:layout_height="16dp" />
-
-            <TextView
-                android:id="@+id/textView"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingTop="4dp"
-                android:text="Select a stop"
-                android:textAlignment="center"
-                android:textAppearance="@android:style/TextAppearance.Material.Medium" />
+                android:background="#3F51B5"
+                android:orientation="vertical">
 
-            <Button
-                android:id="@+id/savedBtn"
-                style="@android:style/Widget.Material.Button.Borderless.Small"
+                <TextView
+                    android:id="@+id/textView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="10dp"
+                    android:paddingTop="20dp"
+                    android:text="Select a stop"
+                    android:textAlignment="center"
+                    android:textAppearance="@android:style/TextAppearance.Material.Menu" />
+
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_list_white_24dp"
-                android:drawablePadding="0dp"
-                android:text="Favourites" />
+                android:orientation="vertical"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp">
 
-            <Button
-                android:id="@+id/mapsBtn"
-                style="@android:style/Widget.Material.Button.Borderless"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_map_white_24dp"
-                android:drawablePadding="0dp"
-                android:onClick="openMaps"
-                android:text="Maps" />
+                <Button
+                    android:id="@+id/savedBtn"
+                    style="@android:style/Widget.Material.Button.Borderless.Small"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableLeft="@drawable/ic_list_white_24dp"
+                    android:drawablePadding="0dp"
+                    android:text="Favourites" />
 
-            <Button
-                style="@android:style/Widget.Material.Button.Borderless"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_search_white_24dp"
-                android:drawablePadding="0dp"
-                android:text="Search" />
+                <Button
+                    android:id="@+id/mapsBtn"
+                    style="@android:style/Widget.Material.Button.Borderless"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableLeft="@drawable/ic_map_white_24dp"
+                    android:drawablePadding="0dp"
+                    android:onClick="openMaps"
+                    android:text="Maps" />
+
+                <Button
+                    style="@android:style/Widget.Material.Button.Borderless"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableLeft="@drawable/ic_search_white_24dp"
+                    android:drawablePadding="0dp"
+                    android:text="Search" />
+            </LinearLayout>
         </LinearLayout>
     </ScrollView>
 
