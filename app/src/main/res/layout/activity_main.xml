@@ -10,64 +10,58 @@
     tools:context="nz.zhang.aucklandtransportwear.MainActivity"
     tools:deviceIds="wear">
 
-    <FrameLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="@dimen/inner_frame_layout_padding"
-        app:boxedEdges="all">
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp">
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="16dp" />
 
             <TextView
                 android:id="@+id/textView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingBottom="4dp"
-                android:paddingLeft="5dp"
                 android:paddingTop="4dp"
                 android:text="Select a stop"
-                android:textAppearance="@android:style/TextAppearance.Material.Menu" />
+                android:textAlignment="center"
+                android:textAppearance="@android:style/TextAppearance.Material.Medium" />
 
             <Button
                 android:id="@+id/savedBtn"
                 style="@android:style/Widget.Material.Button.Borderless.Small"
                 android:layout_width="match_parent"
-                android:layout_height="38dp"
+                android:layout_height="wrap_content"
                 android:drawableLeft="@drawable/ic_list_white_24dp"
                 android:drawablePadding="0dp"
-                android:paddingBottom="0dp"
-                android:paddingLeft="5dp"
-                android:paddingTop="0dp"
-                android:text="Saved" />
+                android:text="Favourites" />
 
             <Button
                 android:id="@+id/mapsBtn"
                 style="@android:style/Widget.Material.Button.Borderless"
                 android:layout_width="match_parent"
-                android:layout_height="38dp"
+                android:layout_height="wrap_content"
                 android:drawableLeft="@drawable/ic_map_white_24dp"
                 android:drawablePadding="0dp"
                 android:onClick="openMaps"
-                android:paddingBottom="0dp"
-                android:paddingLeft="5dp"
-                android:paddingTop="0dp"
                 android:text="Maps" />
 
             <Button
                 style="@android:style/Widget.Material.Button.Borderless"
                 android:layout_width="match_parent"
-                android:layout_height="38dp"
+                android:layout_height="wrap_content"
                 android:drawableLeft="@drawable/ic_search_white_24dp"
                 android:drawablePadding="0dp"
-                android:paddingBottom="0dp"
-                android:paddingLeft="5dp"
-                android:paddingTop="0dp"
                 android:text="Search" />
         </LinearLayout>
+    </ScrollView>
 
-    </FrameLayout>
 </android.support.wear.widget.BoxInsetLayout>
 
