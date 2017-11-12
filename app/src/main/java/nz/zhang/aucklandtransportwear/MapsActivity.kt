@@ -30,7 +30,10 @@ import nz.zhang.aucklandtransportwear.atapi.listener.StopsListListener
 
 const val DEFAULT_ZOOM = 16.5f
 
-class MapsActivity : WearableActivity(), OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
+const val DEFAULT_LAT = -36.844
+const val DEFAULT_LONG = 174.766
+
+class MapsActivity : WearableActivity(), OnMapReadyCallback, GoogleMap.OnMarkerClickListener, GoogleMap.OnCameraIdleListener {
 
     /**
      * Map is initialized when it's fully loaded and ready to be used.
@@ -40,10 +43,13 @@ class MapsActivity : WearableActivity(), OnMapReadyCallback, GoogleMap.OnMarkerC
     private var locationAllowed = false
     lateinit private var fusedLocationProviderClient: FusedLocationProviderClient
     private var lastKnownLocation:Location = Location("")
+    private var lastStopQueriedLocation:Location = lastKnownLocation
+
+    private val addedStops:ArrayList<Stop> = ArrayList()
 
     init {
-        lastKnownLocation.latitude = -36.844
-        lastKnownLocation.longitude = 174.766
+        lastKnownLocation.latitude = DEFAULT_LAT
+        lastKnownLocation.longitude = DEFAULT_LONG
     }
 
     public override fun onCreate(savedState: Bundle?) {
@@ -109,6 +115,7 @@ class MapsActivity : WearableActivity(), OnMapReadyCallback, GoogleMap.OnMarkerC
         }
 
         gMap.setOnMarkerClickListener(this)
+        gMap.setOnCameraIdleListener(this)
 
         // Inform user how to close app (Swipe-To-Close).
         val duration = Toast.LENGTH_LONG
@@ -179,23 +186,27 @@ class MapsActivity : WearableActivity(), OnMapReadyCallback, GoogleMap.OnMarkerC
                         LatLng(lastKnownLocation.latitude,
                                 lastKnownLocation.longitude), DEFAULT_ZOOM))
             }
-            populateStops()
+            populateStops(lastKnownLocation)
         } catch (e: SecurityException) {
             Log.e("Exception: %s", e.message)
         }
 
     }
 
-    private fun populateStops() {
-        ATAPI().getStopsGeo(lastKnownLocation.latitude, lastKnownLocation.longitude, 1000, object :StopsListListener {
+    private fun populateStops(location: Location) {
+        lastStopQueriedLocation = location
+        ATAPI().getStopsGeo(location.latitude, location.longitude, 1000, object :StopsListListener {
             override fun update(stops: List<Stop>?) {
                 if (stops != null) {
                     stops.forEach { stop:Stop ->
-                        val marker = gMap.addMarker(MarkerOptions()
-                                .position(LatLng(stop.stop_lat, stop.stop_lon))
-                                .title(stop.stop_name)
-                                .icon(BitmapDescriptorFactory.fromResource(R.drawable.bus_pin)))
-                        marker.tag = stop
+                        if (!addedStops.contains(stop)) {
+                            val marker = gMap.addMarker(MarkerOptions()
+                                    .position(LatLng(stop.stop_lat, stop.stop_lon))
+                                    .title(stop.stop_name)
+                                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.bus_pin)))
+                            marker.tag = stop
+                            addedStops.add(stop)
+                        }
                     }
                 } else {
                     Log.e("AT API", "Failed to get stops")
@@ -211,6 +222,16 @@ class MapsActivity : WearableActivity(), OnMapReadyCallback, GoogleMap.OnMarkerC
             Toast.makeText(this, "Clicked: ${stop.stop_name}", Toast.LENGTH_SHORT).show()
         }
         return true
+    }
+
+    override fun onCameraIdle() {
+        val currentPosition = Location("")
+        currentPosition.latitude = gMap.cameraPosition.target.latitude
+        currentPosition.longitude = gMap.cameraPosition.target.longitude
+        if (lastStopQueriedLocation.distanceTo(currentPosition) > 500) {
+            Log.i("BusMap", "Moved far enough, we should re-query for stops now")
+            populateStops(currentPosition)
+        }
     }
 
 }
