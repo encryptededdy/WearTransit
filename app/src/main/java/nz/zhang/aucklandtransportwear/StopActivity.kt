@@ -39,10 +39,10 @@ class StopActivity : WearableActivity() {
     }
 
     private fun populateRTBoard() {
-        ATAPI().getRTBoard(stop, 24, object:RTBoardListener {
+        ATAPI().getRTBoard(stop, 4, object:RTBoardListener {
             override fun update(services: List<ServiceRT>?) {
                 if (services != null) {
-                    System.out.println("Populating services...")
+                    System.out.println("Populating services... (${services.size}")
                     loadingServices.visibility = View.GONE
                     val adapter = ServiceRTAdapter(this@StopActivity, services.sorted())
                     serviceRecycler.adapter = adapter

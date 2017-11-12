@@ -53,6 +53,11 @@
                 android:indeterminate="true"
                 android:paddingTop="10dp" />
 
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:descendantFocusability="blocksDescendants">
+
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/serviceRecycler"
                 android:layout_width="match_parent"
@@ -61,6 +66,8 @@
                 android:paddingRight="15dp">
 
             </android.support.v7.widget.RecyclerView>
+
+            </RelativeLayout>
 
             <Space
                 android:layout_width="match_parent"

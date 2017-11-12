@@ -32,6 +32,7 @@ class ServiceRTAdapter (context: Context, private val services: List<ServiceRT>)
         val service = services[position]
         holder?.shortName?.text = service.route_short_name
         holder?.destination?.text = service.destinationDisplay
+        System.out.println("adding: ${service.route_short_name}")
         if (service.expectedArrivalTime != null) {
             // we have live tracking & we know when the bus is coming
             holder?.liveIcon?.visibility = View.VISIBLE
