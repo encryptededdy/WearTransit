@@ -5,7 +5,7 @@ No features are really done yet, but here are some screenshots from a watch I gu
 
 ![mainmenu](https://i.imgur.com/SENImjT.png)
 ![mapview](https://i.imgur.com/Q8Yw6my.png)
-![station](https://i.imgur.com/AMiFo9x.png)
+![station](https://i.imgur.com/eey1fvh.png)
 ![station2](https://i.imgur.com/HR6cPiq.png)
 ![sq1](https://i.imgur.com/uqzweBt.png)
 ![sq2](https://i.imgur.com/urAKEcw.png)
