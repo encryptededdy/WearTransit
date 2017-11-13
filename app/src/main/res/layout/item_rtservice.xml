@@ -8,6 +8,20 @@
     android:background="?android:attr/selectableItemBackground"
     android:orientation="horizontal">
 
+    <ImageView
+        android:id="@+id/liveIcon"
+        android:layout_width="12dp"
+        android:layout_height="12dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="4dp"
+        android:layout_marginTop="8dp"
+        android:contentDescription="Live tracking"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="@+id/eta"
+        app:layout_constraintEnd_toStartOf="@+id/eta"
+        app:layout_constraintTop_toTopOf="@+id/eta"
+        app:srcCompat="@drawable/ic_gps_fixed_white_24dp" />
+
     <TextView
         android:id="@+id/shortName"
         android:layout_width="wrap_content"
@@ -43,15 +57,4 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:text="60m" />
 
-    <ImageView
-        android:id="@+id/liveIcon"
-        android:layout_width="12dp"
-        android:layout_height="12dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="2dp"
-        android:layout_marginTop="8dp"
-        app:layout_constraintBottom_toBottomOf="@+id/eta"
-        app:layout_constraintEnd_toStartOf="@+id/eta"
-        app:layout_constraintTop_toTopOf="@+id/eta"
-        app:srcCompat="@drawable/ic_gps_fixed_white_24dp" />
 </android.support.constraint.ConstraintLayout>

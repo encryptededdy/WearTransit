@@ -5,6 +5,8 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.TextView
 import kotlinx.android.synthetic.main.item_rtservice.view.*
 import nz.zhang.aucklandtransportwear.atapi.ServiceRT
 import org.threeten.bp.Instant
@@ -33,19 +35,21 @@ class ServiceRTAdapter (context: Context, private val services: List<ServiceRT>)
         holder?.shortName?.text = service.route_short_name
         holder?.destination?.text = service.destinationDisplay
         System.out.println("adding: ${service.route_short_name}")
-        if (service.expectedArrivalTime != null) {
+        if (service.expectedDepartureTime != null) {
+            System.out.println("Using live tracking")
             // we have live tracking & we know when the bus is coming
             holder?.liveIcon?.visibility = View.VISIBLE
-            if ((service.expectedArrivalTime.time/1000) - Instant.now().epochSecond > 0) {
+            holder?.liveIcon?.setImageResource(R.drawable.ic_gps_fixed_white_24dp)
+            if ((service.expectedDepartureTime.time/1000) - Instant.now().epochSecond > 0) {
                 // Hasn't arrived yet
-                holder?.eta?.text = formatTime((service.expectedArrivalTime.time/1000) - Instant.now().epochSecond)
-            } else if ((service.expectedArrivalTime.time/1000) - Instant.now().epochSecond > -60) {
-                // Arrived <1m ago
-                holder?.eta?.text = "NOW"
+                holder?.eta?.text = formatTime((service.expectedDepartureTime.time/1000) - Instant.now().epochSecond)
+            } else if ((service.expectedDepartureTime.time/1000) - Instant.now().epochSecond > -60) {
+                // Departed
+                holder?.eta?.text = "-1m"
             }
         } else {
             // no live tracking, use departure time
-            holder?.liveIcon?.visibility = View.INVISIBLE
+            //holder?.liveIcon?.visibility = View.INVISIBLE
             if ((service.scheduledDepartureTime.time/1000) - Instant.now().epochSecond > 0) {
                 // Hasn't arrived yet
                 holder?.eta?.text = formatTime((service.scheduledDepartureTime.time/1000) - Instant.now().epochSecond)
@@ -54,7 +58,7 @@ class ServiceRTAdapter (context: Context, private val services: List<ServiceRT>)
     }
 
     private fun formatTime(seconds:Long) : String {
-        return if (TimeUnit.SECONDS.toMinutes(seconds) < 100) {
+        return if (TimeUnit.SECONDS.toMinutes(seconds) < 60) {
             "${TimeUnit.SECONDS.toMinutes(seconds)}m"
         } else {
             "${TimeUnit.SECONDS.toHours(seconds)}h"
@@ -66,9 +70,9 @@ class ServiceRTAdapter (context: Context, private val services: List<ServiceRT>)
     }
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val shortName = itemView.shortName
-        val destination = itemView.destn
-        val eta = itemView.eta
-        val liveIcon = itemView.liveIcon
+        val shortName: TextView = itemView.shortName
+        val destination: TextView = itemView.destn
+        val eta: TextView = itemView.eta
+        val liveIcon: ImageView = itemView.liveIcon
     }
 }
