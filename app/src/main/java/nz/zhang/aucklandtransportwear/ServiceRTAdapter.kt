@@ -1,6 +1,7 @@
 package nz.zhang.aucklandtransportwear
 
 import android.content.Context
+import android.support.constraint.ConstraintLayout
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -9,6 +10,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import kotlinx.android.synthetic.main.item_rtservice.view.*
 import nz.zhang.aucklandtransportwear.wakaapi.WakaTrip
+import org.w3c.dom.Text
 import java.util.concurrent.TimeUnit
 
 /**
@@ -33,6 +35,16 @@ class ServiceRTAdapter (context: Context, private val trips: List<WakaTrip>) : R
         val service = trips[position]
         holder?.shortName?.text = service.route_short_name
         holder?.destination?.text = service.route_long_name
+        holder?.destination_short?.text = service.trip_headsign
+        holder?.backLayout?.setOnClickListener {
+            if (holder.destination.visibility == View.VISIBLE) {
+                holder.destination.visibility = View.GONE
+                //holder.destination_short.visibility = View.VISIBLE
+            } else {
+                holder.destination.visibility = View.VISIBLE
+                //holder.destination_short.visibility = View.GONE
+            }
+        }
         System.out.println("adding: ${service.route_short_name}")
         if (service.isRealtime) {
             System.out.println("Using live tracking")
@@ -64,7 +76,9 @@ class ServiceRTAdapter (context: Context, private val trips: List<WakaTrip>) : R
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val shortName: TextView = itemView.shortName
         val destination: TextView = itemView.destn
+        val destination_short: TextView = itemView.destnShort
         val eta: TextView = itemView.eta
         val liveIcon: ImageView = itemView.liveIcon
+        val backLayout: ConstraintLayout = itemView.backLayout
     }
 }

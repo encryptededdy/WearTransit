@@ -7,6 +7,7 @@ import nz.zhang.aucklandtransportwear.atapi.ServiceRT
  */
 data class WakaTrip (
         val trip_id: String,
+        val trip_headsign: String,
         val route_short_name: String,
         val route_long_name: String,
         val departure_time_seconds: Int,
