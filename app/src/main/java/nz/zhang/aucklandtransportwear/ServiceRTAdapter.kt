@@ -45,7 +45,6 @@ class ServiceRTAdapter (context: Context, private val trips: List<WakaTrip>) : R
                 //holder.destination_short.visibility = View.GONE
             }
         }
-        System.out.println("adding: ${service.route_short_name}")
         if (service.isRealtime) {
             System.out.println("Using live tracking")
             // we have live tracking & we know when the bus is coming

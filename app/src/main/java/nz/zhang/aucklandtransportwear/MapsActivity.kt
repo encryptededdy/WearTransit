@@ -27,6 +27,7 @@ import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.model.*
 import nz.zhang.aucklandtransportwear.atapi.ATAPI
 import nz.zhang.aucklandtransportwear.atapi.Stop
+import nz.zhang.aucklandtransportwear.atapi.StopType
 import nz.zhang.aucklandtransportwear.atapi.listener.StopsListListener
 
 const val DEFAULT_ZOOM = 16.5f
@@ -203,8 +204,12 @@ class MapsActivity : WearableActivity(), OnMapReadyCallback, GoogleMap.OnMarkerC
                         if (!addedStops.contains(stop)) {
                             val marker = gMap.addMarker(MarkerOptions()
                                     .position(LatLng(stop.stop_lat, stop.stop_lon))
-                                    .title(stop.stop_name)
-                                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.bus_pin)))
+                                    .title(stop.stop_name))
+                            when (stop.stopType()) {
+                                StopType.TRAIN -> marker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.train_pin))
+                                StopType.BUS -> marker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.bus_pin))
+                                StopType.FERRY -> marker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.ferry_pin))
+                            }
                             marker.tag = stop
                             addedStops.add(stop)
                         }

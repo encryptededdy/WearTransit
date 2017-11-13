@@ -14,10 +14,14 @@ import nz.zhang.aucklandtransportwear.atapi.listener.RTBoardListener
 import nz.zhang.aucklandtransportwear.wakaapi.WakaAPI
 import nz.zhang.aucklandtransportwear.wakaapi.WakaTrip
 import nz.zhang.aucklandtransportwear.wakaapi.listener.StopInfoListener
+import java.util.*
+import kotlin.concurrent.fixedRateTimer
 
 class StopActivity : WearableActivity() {
 
     lateinit var stop:Stop
+
+    lateinit var timer:Timer
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,7 +33,14 @@ class StopActivity : WearableActivity() {
         serviceRecycler.layoutManager = LinearLayoutManager(this)
         serviceRecycler.isNestedScrollingEnabled = false
         populateMainFields()
-        populateRTBoard()
+        timer = fixedRateTimer("RefreshBoard", true,0, 20000) {
+            populateRTBoard()
+        }
+    }
+
+    override fun onStop() {
+        timer.cancel()
+        super.onStop()
     }
 
     private fun populateMainFields() {
