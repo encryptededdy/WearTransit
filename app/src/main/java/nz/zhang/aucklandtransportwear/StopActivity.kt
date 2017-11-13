@@ -11,6 +11,9 @@ import nz.zhang.aucklandtransportwear.atapi.ServiceRT
 import nz.zhang.aucklandtransportwear.atapi.Stop
 import nz.zhang.aucklandtransportwear.atapi.StopType
 import nz.zhang.aucklandtransportwear.atapi.listener.RTBoardListener
+import nz.zhang.aucklandtransportwear.wakaapi.WakaAPI
+import nz.zhang.aucklandtransportwear.wakaapi.WakaTrip
+import nz.zhang.aucklandtransportwear.wakaapi.listener.StopInfoListener
 
 class StopActivity : WearableActivity() {
 
@@ -39,14 +42,18 @@ class StopActivity : WearableActivity() {
     }
 
     private fun populateRTBoard() {
-        ATAPI().getRTBoard(stop, 4, object:RTBoardListener {
-            override fun update(services: List<ServiceRT>?) {
+        WakaAPI().getStopInfo(stop, object:StopInfoListener {
+            override fun update(services: List<WakaTrip>?) {
                 if (services != null) {
                     System.out.println("Populating services... (${services.size}")
                     loadingServices.visibility = View.GONE
-                    val adapter = ServiceRTAdapter(this@StopActivity, services.sorted())
-                    serviceRecycler.adapter = adapter
-                    serviceRecycler.invalidate()
+                    if (services.isEmpty()) {
+                        noServices.visibility = View.VISIBLE
+                    } else {
+                        val adapter = ServiceRTAdapter(this@StopActivity, services.sorted())
+                        serviceRecycler.adapter = adapter
+                        serviceRecycler.invalidate()
+                    }
                 }
             }
 

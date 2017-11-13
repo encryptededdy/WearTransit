@@ -8,14 +8,13 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import kotlinx.android.synthetic.main.item_rtservice.view.*
-import nz.zhang.aucklandtransportwear.atapi.ServiceRT
-import org.threeten.bp.Instant
+import nz.zhang.aucklandtransportwear.wakaapi.WakaTrip
 import java.util.concurrent.TimeUnit
 
 /**
  * Created by Edward Zhang on 13/11/2017.
  */
-class ServiceRTAdapter (context: Context, private val services: List<ServiceRT>) : RecyclerView.Adapter<ServiceRTAdapter.ViewHolder>() {
+class ServiceRTAdapter (context: Context, private val trips: List<WakaTrip>) : RecyclerView.Adapter<ServiceRTAdapter.ViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): ViewHolder {
         val context = parent?.context
         val inflater = LayoutInflater.from(context)
@@ -27,41 +26,34 @@ class ServiceRTAdapter (context: Context, private val services: List<ServiceRT>)
     }
 
     override fun getItemCount(): Int {
-        return services.size
+        return trips.size
     }
 
     override fun onBindViewHolder(holder: ViewHolder?, position: Int) {
-        val service = services[position]
+        val service = trips[position]
         holder?.shortName?.text = service.route_short_name
-        holder?.destination?.text = service.destinationDisplay
+        holder?.destination?.text = service.route_long_name
         System.out.println("adding: ${service.route_short_name}")
-        if (service.expectedDepartureTime != null) {
+        if (service.isRealtime) {
             System.out.println("Using live tracking")
             // we have live tracking & we know when the bus is coming
             holder?.liveIcon?.visibility = View.VISIBLE
             holder?.liveIcon?.setImageResource(R.drawable.ic_gps_fixed_white_24dp)
-            if ((service.expectedDepartureTime.time/1000) - Instant.now().epochSecond > 0) {
-                // Hasn't arrived yet
-                holder?.eta?.text = formatTime((service.expectedDepartureTime.time/1000) - Instant.now().epochSecond)
-            } else if ((service.expectedDepartureTime.time/1000) - Instant.now().epochSecond > -60) {
-                // Departed
-                holder?.eta?.text = "-1m"
-            }
+        }
+
+        if ((service.departure_time_seconds - service.requestTime + service.delay) > 0) {
+            // Hasn't arrived yet
+            holder?.eta?.text = formatTime(service.departure_time_seconds - service.requestTime + service.delay)
         } else {
-            // no live tracking, use departure time
-            //holder?.liveIcon?.visibility = View.INVISIBLE
-            if ((service.scheduledDepartureTime.time/1000) - Instant.now().epochSecond > 0) {
-                // Hasn't arrived yet
-                holder?.eta?.text = formatTime((service.scheduledDepartureTime.time/1000) - Instant.now().epochSecond)
-            }
+            holder?.eta?.text = "LEFT"
         }
     }
 
-    private fun formatTime(seconds:Long) : String {
-        return if (TimeUnit.SECONDS.toMinutes(seconds) < 60) {
-            "${TimeUnit.SECONDS.toMinutes(seconds)}m"
+    private fun formatTime(seconds:Int) : String {
+        return if (TimeUnit.SECONDS.toMinutes(seconds.toLong()) < 60) {
+            "${TimeUnit.SECONDS.toMinutes(seconds.toLong())}m"
         } else {
-            "${TimeUnit.SECONDS.toHours(seconds)}h"
+            "${TimeUnit.SECONDS.toHours(seconds.toLong())}h"
         }
     }
 
