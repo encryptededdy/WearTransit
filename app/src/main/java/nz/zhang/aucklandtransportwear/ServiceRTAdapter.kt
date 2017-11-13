@@ -1,21 +1,23 @@
 package nz.zhang.aucklandtransportwear
 
 import android.content.Context
+import android.graphics.Color
 import android.support.constraint.ConstraintLayout
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import kotlinx.android.synthetic.main.item_rtservice.view.*
-import nz.zhang.aucklandtransportwear.wakaapi.WakaService
+import nz.zhang.aucklandtransportwear.wakaapi.Trip
 import java.util.concurrent.TimeUnit
 
 /**
  * Created by Edward Zhang on 13/11/2017.
  */
-class ServiceRTAdapter (context: Context, private val services: List<WakaService>) : RecyclerView.Adapter<ServiceRTAdapter.ViewHolder>() {
+class ServiceRTAdapter (context: Context, private val trips: List<Trip>) : RecyclerView.Adapter<ServiceRTAdapter.ViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): ViewHolder {
         val context = parent?.context
         val inflater = LayoutInflater.from(context)
@@ -27,14 +29,15 @@ class ServiceRTAdapter (context: Context, private val services: List<WakaService
     }
 
     override fun getItemCount(): Int {
-        return services.size
+        return trips.size
     }
 
     override fun onBindViewHolder(holder: ViewHolder?, position: Int) {
-        val service = services[position]
+        val service = trips[position]
         holder?.shortName?.text = service.route_short_name
         holder?.destination?.text = service.route_long_name
         holder?.destination_short?.text = service.trip_headsign
+        holder?.serviceColour?.setBackgroundColor(Color.parseColor(service.route_color.padEnd(7, '0')))
         holder?.backLayout?.setOnClickListener {
             if (holder.destination.visibility == View.VISIBLE) {
                 holder.destination.visibility = View.GONE
@@ -78,5 +81,6 @@ class ServiceRTAdapter (context: Context, private val services: List<WakaService
         val eta: TextView = itemView.eta
         val liveIcon: ImageView = itemView.liveIcon
         val backLayout: ConstraintLayout = itemView.backLayout
+        val serviceColour: LinearLayout = itemView.serviceColour
     }
 }

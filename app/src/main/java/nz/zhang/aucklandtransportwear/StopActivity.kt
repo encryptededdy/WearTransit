@@ -9,7 +9,7 @@ import kotlinx.android.synthetic.main.activity_stop.*
 import nz.zhang.aucklandtransportwear.wakaapi.Stop
 import nz.zhang.aucklandtransportwear.wakaapi.StopType
 import nz.zhang.aucklandtransportwear.wakaapi.WakaAPI
-import nz.zhang.aucklandtransportwear.wakaapi.WakaService
+import nz.zhang.aucklandtransportwear.wakaapi.Trip
 import nz.zhang.aucklandtransportwear.wakaapi.listener.StopInfoListener
 import java.util.*
 import kotlin.concurrent.fixedRateTimer
@@ -51,14 +51,14 @@ class StopActivity : WearableActivity() {
 
     private fun populateRTBoard() {
         WakaAPI().getStopInfo(stop, object:StopInfoListener {
-            override fun update(services: List<WakaService>?) {
-                if (services != null) {
-                    System.out.println("Populating services... (${services.size}")
+            override fun update(trips: List<Trip>?) {
+                if (trips != null) {
+                    System.out.println("Populating trips... (${trips.size}")
                     loadingServices.visibility = View.GONE
-                    if (services.isEmpty()) {
+                    if (trips.isEmpty()) {
                         noServices.visibility = View.VISIBLE
                     } else {
-                        val adapter = ServiceRTAdapter(this@StopActivity, services.sorted())
+                        val adapter = ServiceRTAdapter(this@StopActivity, trips.sorted())
                         serviceRecycler.adapter = adapter
                         serviceRecycler.invalidate()
                     }

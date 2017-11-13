@@ -1,6 +1,6 @@
 package nz.zhang.aucklandtransportwear.wakaapi
 
-data class WakaResponse (private val currentTime: Int, val trips: ArrayList<WakaService>, val realtime: Map<String, WakaRealtime>) {
+data class WakaResponse (private val currentTime: Int, val trips: ArrayList<Trip>, val realtime: Map<String, WakaRealtime>) {
     fun updateTrips() {
         // delete anything that's already left
         val iterator = trips.iterator()
