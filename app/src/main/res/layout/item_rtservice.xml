@@ -4,17 +4,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/backLayout"
     android:layout_width="match_parent"
-    android:layout_height="30dp"
+    android:layout_height="wrap_content"
     android:background="?android:attr/selectableItemBackground"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    android:paddingBottom="4dp"
+    android:paddingLeft="15dp"
+    android:paddingRight="15dp"
+    android:paddingTop="4dp">
 
     <ImageView
         android:id="@+id/liveIcon"
-        android:layout_width="12dp"
+        android:layout_width="10dp"
         android:layout_height="12dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="4dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginEnd="2dp"
         android:contentDescription="Live tracking"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="@+id/eta"
@@ -26,35 +28,52 @@
         android:id="@+id/shortName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="4dp"
-        android:layout_marginTop="4dp"
         android:textAppearance="@android:style/TextAppearance.Material.Subhead"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/destnShort"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/destnShort"
         tools:text="NEX" />
 
     <TextView
         android:id="@+id/destn"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
+        android:ellipsize="none"
+        android:scrollHorizontally="false"
         android:textAppearance="@android:style/TextAppearance.Material.Small"
-        app:layout_constraintBottom_toBottomOf="@+id/shortName"
+        android:textSize="12sp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/shortName"
-        app:layout_constraintTop_toTopOf="@+id/shortName"
-        tools:text="ALBANY STN" />
+        app:layout_constraintTop_toBottomOf="@+id/destnShort"
+        tools:text="Lynfield To City Centre" />
+
+    <TextView
+        android:id="@+id/destnShort"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="2dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="4dp"
+        android:ellipsize="none"
+        android:scrollHorizontally="false"
+        android:textAppearance="@android:style/TextAppearance.Material.Small"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toStartOf="@+id/liveIcon"
+        app:layout_constraintStart_toEndOf="@+id/shortName"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="City Centre" />
 
     <TextView
         android:id="@+id/eta"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="4dp"
-        android:layout_marginTop="4dp"
         android:textAppearance="@android:style/TextAppearance.Material.Menu"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/destnShort"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/destnShort"
         tools:text="60m" />
 
 </android.support.constraint.ConstraintLayout>

@@ -53,19 +53,27 @@
                 android:indeterminate="true"
                 android:paddingTop="10dp" />
 
+            <TextView
+                android:id="@+id/noServices"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="8dp"
+                android:text="No Services"
+                android:textAlignment="center"
+                android:textAppearance="@android:style/TextAppearance.Material.Medium"
+                android:visibility="gone" />
+
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:descendantFocusability="blocksDescendants">
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/serviceRecycler"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingLeft="15dp"
-                android:paddingRight="15dp">
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/serviceRecycler"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
 
-            </android.support.v7.widget.RecyclerView>
+                </android.support.v7.widget.RecyclerView>
 
             </RelativeLayout>
 
