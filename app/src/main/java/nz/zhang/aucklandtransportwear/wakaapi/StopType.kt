@@ -1,4 +1,4 @@
-package nz.zhang.aucklandtransportwear.atapi
+package nz.zhang.aucklandtransportwear.wakaapi
 
 /**
  * Created by Edward Zhang on 12/11/2017.

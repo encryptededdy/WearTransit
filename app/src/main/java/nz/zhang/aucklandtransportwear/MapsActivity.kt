@@ -15,8 +15,10 @@ import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
 import android.support.wear.widget.SwipeDismissFrameLayout
 import android.support.wearable.activity.WearableActivity
+import android.support.wearable.input.RotaryEncoder
 import android.util.Log
 import android.view.Gravity
+import android.view.MotionEvent
 import android.view.View
 import android.widget.FrameLayout
 import android.widget.Toast
@@ -25,10 +27,10 @@ import com.google.android.gms.location.FusedLocationProviderClient
 import kotlinx.android.synthetic.main.activity_maps.*
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.model.*
-import nz.zhang.aucklandtransportwear.atapi.ATAPI
-import nz.zhang.aucklandtransportwear.atapi.Stop
-import nz.zhang.aucklandtransportwear.atapi.StopType
-import nz.zhang.aucklandtransportwear.atapi.listener.StopsListListener
+import nz.zhang.aucklandtransportwear.wakaapi.Stop
+import nz.zhang.aucklandtransportwear.wakaapi.StopType
+import nz.zhang.aucklandtransportwear.wakaapi.WakaAPI
+import nz.zhang.aucklandtransportwear.wakaapi.listener.StopSearchListener
 
 const val DEFAULT_ZOOM = 16.5f
 
@@ -101,6 +103,17 @@ class MapsActivity : WearableActivity(), OnMapReadyCallback, GoogleMap.OnMarkerC
     override fun onMapReady(googleMap: GoogleMap) {
         // Map is ready to be used.
         gMap = googleMap
+
+        map_container.setOnGenericMotionListener(View.OnGenericMotionListener { v, ev ->
+            if (ev?.action == MotionEvent.ACTION_SCROLL && RotaryEncoder.isFromRotaryEncoder(ev)) {
+                // Don't forget the negation here
+                val delta = -RotaryEncoder.getRotaryAxisValue(ev) * RotaryEncoder.getScaledScrollFactor(this@MapsActivity)
+                gMap.animateCamera(CameraUpdateFactory.zoomBy(delta))
+                return@OnGenericMotionListener true
+            }
+
+            false;
+        })
 
         try {
             // Customise the styling of the base map using a JSON object defined
@@ -197,14 +210,13 @@ class MapsActivity : WearableActivity(), OnMapReadyCallback, GoogleMap.OnMarkerC
 
     private fun populateStops(location: Location) {
         lastStopQueriedLocation = location
-        ATAPI().getStopsGeo(location.latitude, location.longitude, 1000, object :StopsListListener {
+        WakaAPI().searchStopsGeo(location.latitude, location.longitude, 1000, object : StopSearchListener {
             override fun update(stops: List<Stop>?) {
                 if (stops != null) {
                     stops.forEach { stop:Stop ->
                         if (!addedStops.contains(stop)) {
                             val marker = gMap.addMarker(MarkerOptions()
-                                    .position(LatLng(stop.stop_lat, stop.stop_lon))
-                                    .title(stop.stop_name))
+                                    .position(LatLng(stop.stop_lat, stop.stop_lon)))
                             when (stop.stopType()) {
                                 StopType.TRAIN -> marker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.train_pin))
                                 StopType.BUS -> marker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.bus_pin))

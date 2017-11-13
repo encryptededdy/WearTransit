@@ -1,16 +1,15 @@
-package nz.zhang.aucklandtransportwear.atapi
+package nz.zhang.aucklandtransportwear.wakaapi
 
 import android.os.Parcel
 import android.os.Parcelable
-import nz.zhang.aucklandtransportwear.R
 
 class Stop (
         val stop_id: String,
         val stop_name: String,
         val stop_lat: Double,
         val stop_lon: Double,
-        val stop_code: Int,
-        val location_type: Int
+        val stop_region: String,
+        val route_type: Int
 ) : Parcelable {
     override fun equals(other: Any?): Boolean {
         return if (other is Stop) {
@@ -25,10 +24,10 @@ class Stop (
     }
 
     fun stopType(): StopType {
-        return when {
-            stop_name.contains("Train Station") -> StopType.TRAIN
-            stop_name.contains("Ferry Terminal") -> StopType.FERRY
-            else -> StopType.BUS
+        return when (route_type) {
+            2 -> StopType.TRAIN
+            4 -> StopType.FERRY
+            else -> StopType.BUS // TODO: Find out from Jono what type 1 is
         }
     }
 
@@ -41,13 +40,13 @@ class Stop (
         p0?.writeString(stop_name)
         p0?.writeDouble(stop_lat)
         p0?.writeDouble(stop_lon)
-        p0?.writeInt(stop_code)
-        p0?.writeInt(location_type)
+        p0?.writeString(stop_region)
+        p0?.writeInt(route_type)
     }
 
     constructor(parcel: Parcel) : this(
             parcel.readString(), parcel.readString(), parcel.readDouble(), parcel.readDouble(),
-            parcel.readInt(), parcel.readInt())
+            parcel.readString(), parcel.readInt())
 
     companion object CREATOR : Parcelable.Creator<Stop> {
         override fun createFromParcel(parcel: Parcel): Stop {

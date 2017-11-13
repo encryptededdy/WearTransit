@@ -9,14 +9,13 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import kotlinx.android.synthetic.main.item_rtservice.view.*
-import nz.zhang.aucklandtransportwear.wakaapi.WakaTrip
-import org.w3c.dom.Text
+import nz.zhang.aucklandtransportwear.wakaapi.WakaService
 import java.util.concurrent.TimeUnit
 
 /**
  * Created by Edward Zhang on 13/11/2017.
  */
-class ServiceRTAdapter (context: Context, private val trips: List<WakaTrip>) : RecyclerView.Adapter<ServiceRTAdapter.ViewHolder>() {
+class ServiceRTAdapter (context: Context, private val services: List<WakaService>) : RecyclerView.Adapter<ServiceRTAdapter.ViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): ViewHolder {
         val context = parent?.context
         val inflater = LayoutInflater.from(context)
@@ -28,11 +27,11 @@ class ServiceRTAdapter (context: Context, private val trips: List<WakaTrip>) : R
     }
 
     override fun getItemCount(): Int {
-        return trips.size
+        return services.size
     }
 
     override fun onBindViewHolder(holder: ViewHolder?, position: Int) {
-        val service = trips[position]
+        val service = services[position]
         holder?.shortName?.text = service.route_short_name
         holder?.destination?.text = service.route_long_name
         holder?.destination_short?.text = service.trip_headsign

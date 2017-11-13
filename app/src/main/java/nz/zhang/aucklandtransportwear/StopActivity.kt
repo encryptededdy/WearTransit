@@ -6,13 +6,10 @@ import android.support.wearable.activity.WearableActivity
 import android.view.View
 import com.jakewharton.threetenabp.AndroidThreeTen
 import kotlinx.android.synthetic.main.activity_stop.*
-import nz.zhang.aucklandtransportwear.atapi.ATAPI
-import nz.zhang.aucklandtransportwear.atapi.ServiceRT
-import nz.zhang.aucklandtransportwear.atapi.Stop
-import nz.zhang.aucklandtransportwear.atapi.StopType
-import nz.zhang.aucklandtransportwear.atapi.listener.RTBoardListener
+import nz.zhang.aucklandtransportwear.wakaapi.Stop
+import nz.zhang.aucklandtransportwear.wakaapi.StopType
 import nz.zhang.aucklandtransportwear.wakaapi.WakaAPI
-import nz.zhang.aucklandtransportwear.wakaapi.WakaTrip
+import nz.zhang.aucklandtransportwear.wakaapi.WakaService
 import nz.zhang.aucklandtransportwear.wakaapi.listener.StopInfoListener
 import java.util.*
 import kotlin.concurrent.fixedRateTimer
@@ -54,7 +51,7 @@ class StopActivity : WearableActivity() {
 
     private fun populateRTBoard() {
         WakaAPI().getStopInfo(stop, object:StopInfoListener {
-            override fun update(services: List<WakaTrip>?) {
+            override fun update(services: List<WakaService>?) {
                 if (services != null) {
                     System.out.println("Populating services... (${services.size}")
                     loadingServices.visibility = View.GONE

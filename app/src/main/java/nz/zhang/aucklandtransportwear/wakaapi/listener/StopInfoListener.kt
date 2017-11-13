@@ -1,7 +1,7 @@
 package nz.zhang.aucklandtransportwear.wakaapi.listener
 
-import nz.zhang.aucklandtransportwear.wakaapi.WakaTrip
+import nz.zhang.aucklandtransportwear.wakaapi.WakaService
 
 interface StopInfoListener {
-    fun update(services: List<WakaTrip>?)
+    fun update(services: List<WakaService>?)
 }
