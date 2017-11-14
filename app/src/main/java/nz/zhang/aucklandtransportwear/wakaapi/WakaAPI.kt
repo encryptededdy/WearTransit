@@ -1,6 +1,7 @@
 package nz.zhang.aucklandtransportwear.wakaapi
 
 import android.util.Log
+import nz.zhang.aucklandtransportwear.DataStore
 import nz.zhang.aucklandtransportwear.wakaapi.Stop
 import nz.zhang.aucklandtransportwear.wakaapi.listener.StopInfoListener
 import nz.zhang.aucklandtransportwear.wakaapi.listener.StopSearchListener
@@ -10,11 +11,12 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-const val ENDPOINT = "https://getwaka.com/a/nz-akl/"
-
 class WakaAPI {
+
+    private val endpoint = "https://getwaka.com/a/${DataStore.selectedCity.shortCode}/"
+
     private val retrofitWaka = Retrofit.Builder()
-            .baseUrl(ENDPOINT)
+            .baseUrl(endpoint)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(WakaAPIService::class.java)

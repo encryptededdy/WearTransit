@@ -34,17 +34,24 @@ class ServiceRTAdapter (context: Context, private val trips: List<Trip>) : Recyc
 
     override fun onBindViewHolder(holder: ViewHolder?, position: Int) {
         val service = trips[position]
+        if (service.trip_headsign.isNullOrBlank()) {
+            holder?.destination_short?.text = service.route_long_name
+        } else {
+            holder?.destination_short?.text = service.trip_headsign
+        }
         holder?.shortName?.text = service.route_short_name
         holder?.destination?.text = service.route_long_name
-        holder?.destination_short?.text = service.trip_headsign
         holder?.serviceColour?.setBackgroundColor(Color.parseColor(service.route_color.padEnd(7, '0')))
-        holder?.backLayout?.setOnClickListener {
-            if (holder.destination.visibility == View.VISIBLE) {
-                holder.destination.visibility = View.GONE
-                //holder.destination_short.visibility = View.VISIBLE
-            } else {
-                holder.destination.visibility = View.VISIBLE
-                //holder.destination_short.visibility = View.GONE
+        if (!service.trip_headsign.isNullOrBlank()) {
+            // Don't offer the expanded view if there isn't one...
+            holder?.backLayout?.setOnClickListener {
+                if (holder.destination.visibility == View.VISIBLE) {
+                    holder.destination.visibility = View.GONE
+                    //holder.destination_short.visibility = View.VISIBLE
+                } else {
+                    holder.destination.visibility = View.VISIBLE
+                    //holder.destination_short.visibility = View.GONE
+                }
             }
         }
         if (service.isRealtime) {

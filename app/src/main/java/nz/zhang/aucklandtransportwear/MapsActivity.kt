@@ -35,9 +35,6 @@ import nz.zhang.aucklandtransportwear.wakaapi.listener.StopSearchListener
 const val DEFAULT_ZOOM = 16.5f
 const val HIDE_ZOOM = 14f
 
-const val DEFAULT_LAT = -36.844
-const val DEFAULT_LONG = 174.766
-
 class MapsActivity : WearableActivity(), OnMapReadyCallback, GoogleMap.OnMarkerClickListener, GoogleMap.OnCameraIdleListener, GoogleMap.OnCameraMoveListener {
 
     /**
@@ -56,8 +53,8 @@ class MapsActivity : WearableActivity(), OnMapReadyCallback, GoogleMap.OnMarkerC
     private var lastZoom = DEFAULT_ZOOM
 
     init {
-        lastKnownLocation.latitude = DEFAULT_LAT
-        lastKnownLocation.longitude = DEFAULT_LONG
+        lastKnownLocation.latitude = DataStore.selectedCity.defaultLat
+        lastKnownLocation.longitude = DataStore.selectedCity.defaultLong
     }
 
     public override fun onCreate(savedState: Bundle?) {

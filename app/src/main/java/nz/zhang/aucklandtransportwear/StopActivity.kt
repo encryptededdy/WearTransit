@@ -15,6 +15,10 @@ import java.util.*
 import kotlin.concurrent.fixedRateTimer
 import android.support.wearable.activity.ConfirmationActivity
 import android.content.Intent
+import android.net.Uri
+import com.google.android.wearable.intent.RemoteIntent
+
+
 
 
 
@@ -32,7 +36,7 @@ class StopActivity : WearableActivity() {
         setAmbientEnabled()
         stop = intent.getParcelableExtra("stop")
         // Stop saving icon status
-        if (StopStore.savedStops.contains(stop)) {
+        if (DataStore.savedStops.contains(stop)) {
             starIcon.setImageDrawable(getDrawable(R.drawable.ic_star_white_24dp))
             starStopText.text = "Unsave this stop"
         } else {
@@ -81,9 +85,9 @@ class StopActivity : WearableActivity() {
     }
 
     fun saveStop(view: View) {
-        if (StopStore.savedStops.contains(stop)) {
+        if (DataStore.savedStops.contains(stop)) {
             // Delete the stop
-            StopStore.savedStops.remove(stop)
+            DataStore.savedStops.remove(stop)
             starIcon.setImageDrawable(getDrawable(R.drawable.ic_star_border_white_24dp))
             starStopText.text = "Save this stop"
             val intent = Intent(this, ConfirmationActivity::class.java)
@@ -93,7 +97,7 @@ class StopActivity : WearableActivity() {
             startActivity(intent)
         } else {
             // Save the stop
-            StopStore.savedStops.add(stop)
+            DataStore.savedStops.add(stop)
             starIcon.setImageDrawable(getDrawable(R.drawable.ic_star_white_24dp))
             starStopText.text = "Unsave this stop"
             val intent = Intent(this, ConfirmationActivity::class.java)
@@ -102,5 +106,17 @@ class StopActivity : WearableActivity() {
             intent.putExtra(ConfirmationActivity.EXTRA_MESSAGE, "Stop Saved")
             startActivity(intent)
         }
+    }
+
+    fun openOnPhone(view: View) {
+        val intent = Intent(Intent.ACTION_VIEW)
+                .addCategory(Intent.CATEGORY_BROWSABLE)
+                .setData(Uri.parse("https://getwaka.com/s/${stop.stop_region}/${stop.stop_id}"))
+        RemoteIntent.startRemoteActivity(this, intent, null)
+        val animIntent = Intent(this, ConfirmationActivity::class.java)
+        animIntent.putExtra(ConfirmationActivity.EXTRA_ANIMATION_TYPE,
+                ConfirmationActivity.OPEN_ON_PHONE_ANIMATION)
+        animIntent.putExtra(ConfirmationActivity.EXTRA_MESSAGE, "Opened on Phone")
+        startActivity(animIntent)
     }
 }
