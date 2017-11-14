@@ -32,6 +32,7 @@
                     android:layout_height="50dp"
                     android:layout_marginBottom="0dp"
                     android:layout_marginTop="10dp"
+                    android:layout_weight="1"
                     android:src="@drawable/ic_directions_bus_white_24dp" />
 
                 <TextView
@@ -77,9 +78,31 @@
 
             </RelativeLayout>
 
-            <Space
+            <LinearLayout
+                android:id="@+id/starBackground"
                 android:layout_width="match_parent"
-                android:layout_height="80dp" />
+                android:layout_height="match_parent"
+                android:onClick="saveStop"
+                android:background="?android:attr/selectableItemBackground"
+            android:orientation="vertical">
+                <ImageView
+                    android:id="@+id/starIcon"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_weight="1"
+                    android:clickable="false"
+                    android:src="@drawable/ic_star_border_white_24dp" />
+
+                <TextView
+                    android:id="@+id/starStopText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="30dp"
+                    android:clickable="false"
+                    android:text="Save this stop"
+                    android:textAlignment="center" />
+            </LinearLayout>
 
         </LinearLayout>
     </ScrollView>

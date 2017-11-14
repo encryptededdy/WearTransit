@@ -33,11 +33,12 @@ import nz.zhang.aucklandtransportwear.wakaapi.WakaAPI
 import nz.zhang.aucklandtransportwear.wakaapi.listener.StopSearchListener
 
 const val DEFAULT_ZOOM = 16.5f
+const val HIDE_ZOOM = 14f
 
 const val DEFAULT_LAT = -36.844
 const val DEFAULT_LONG = 174.766
 
-class MapsActivity : WearableActivity(), OnMapReadyCallback, GoogleMap.OnMarkerClickListener, GoogleMap.OnCameraIdleListener {
+class MapsActivity : WearableActivity(), OnMapReadyCallback, GoogleMap.OnMarkerClickListener, GoogleMap.OnCameraIdleListener, GoogleMap.OnCameraMoveListener {
 
     /**
      * Map is initialized when it's fully loaded and ready to be used.
@@ -50,6 +51,9 @@ class MapsActivity : WearableActivity(), OnMapReadyCallback, GoogleMap.OnMarkerC
     private var lastStopQueriedLocation:Location = lastKnownLocation
 
     private val addedStops:ArrayList<Stop> = ArrayList()
+    private val addedMarkers:ArrayList<Marker> = ArrayList()
+
+    private var lastZoom = DEFAULT_ZOOM
 
     init {
         lastKnownLocation.latitude = DEFAULT_LAT
@@ -131,6 +135,7 @@ class MapsActivity : WearableActivity(), OnMapReadyCallback, GoogleMap.OnMarkerC
 
         gMap.setOnMarkerClickListener(this)
         gMap.setOnCameraIdleListener(this)
+        gMap.setOnCameraMoveListener(this)
 
         // Inform user how to close app (Swipe-To-Close).
         val duration = Toast.LENGTH_LONG
@@ -224,6 +229,10 @@ class MapsActivity : WearableActivity(), OnMapReadyCallback, GoogleMap.OnMarkerC
                             }
                             marker.tag = stop
                             addedStops.add(stop)
+                            addedMarkers.add(marker)
+                            if (gMap.cameraPosition.zoom < HIDE_ZOOM) {
+                                marker.isVisible = false
+                            }
                         }
                     }
                 } else {
@@ -252,6 +261,16 @@ class MapsActivity : WearableActivity(), OnMapReadyCallback, GoogleMap.OnMarkerC
             Log.i("BusMap", "Moved far enough, we should re-query for stops now")
             populateStops(currentPosition)
         }
+    }
+
+    override fun onCameraMove() {
+        val zoom = gMap.cameraPosition.zoom
+        if (lastZoom > HIDE_ZOOM && zoom < HIDE_ZOOM) {
+            addedMarkers.forEach { it.isVisible = false }
+        } else if (lastZoom < HIDE_ZOOM && zoom > HIDE_ZOOM) {
+            addedMarkers.forEach { it.isVisible = true }
+        }
+        lastZoom = zoom
     }
 
 }

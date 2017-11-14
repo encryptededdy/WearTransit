@@ -13,6 +13,10 @@ import nz.zhang.aucklandtransportwear.wakaapi.Trip
 import nz.zhang.aucklandtransportwear.wakaapi.listener.StopInfoListener
 import java.util.*
 import kotlin.concurrent.fixedRateTimer
+import android.support.wearable.activity.ConfirmationActivity
+import android.content.Intent
+
+
 
 class StopActivity : WearableActivity() {
 
@@ -27,6 +31,14 @@ class StopActivity : WearableActivity() {
         // Enables Always-on
         setAmbientEnabled()
         stop = intent.getParcelableExtra("stop")
+        // Stop saving icon status
+        if (StopStore.savedStops.contains(stop)) {
+            starIcon.setImageDrawable(getDrawable(R.drawable.ic_star_white_24dp))
+            starStopText.text = "Unsave this stop"
+        } else {
+            starIcon.setImageDrawable(getDrawable(R.drawable.ic_star_border_white_24dp))
+            starStopText.text = "Save this stop"
+        }
         serviceRecycler.layoutManager = LinearLayoutManager(this)
         serviceRecycler.isNestedScrollingEnabled = false
         populateMainFields()
@@ -66,5 +78,29 @@ class StopActivity : WearableActivity() {
             }
 
         })
+    }
+
+    fun saveStop(view: View) {
+        if (StopStore.savedStops.contains(stop)) {
+            // Delete the stop
+            StopStore.savedStops.remove(stop)
+            starIcon.setImageDrawable(getDrawable(R.drawable.ic_star_border_white_24dp))
+            starStopText.text = "Save this stop"
+            val intent = Intent(this, ConfirmationActivity::class.java)
+            intent.putExtra(ConfirmationActivity.EXTRA_ANIMATION_TYPE,
+                    ConfirmationActivity.SUCCESS_ANIMATION)
+            intent.putExtra(ConfirmationActivity.EXTRA_MESSAGE, "Stop Unsaved")
+            startActivity(intent)
+        } else {
+            // Save the stop
+            StopStore.savedStops.add(stop)
+            starIcon.setImageDrawable(getDrawable(R.drawable.ic_star_white_24dp))
+            starStopText.text = "Unsave this stop"
+            val intent = Intent(this, ConfirmationActivity::class.java)
+            intent.putExtra(ConfirmationActivity.EXTRA_ANIMATION_TYPE,
+                    ConfirmationActivity.SUCCESS_ANIMATION)
+            intent.putExtra(ConfirmationActivity.EXTRA_MESSAGE, "Stop Saved")
+            startActivity(intent)
+        }
     }
 }
