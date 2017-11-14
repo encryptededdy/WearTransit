@@ -58,7 +58,7 @@ class ServiceRTAdapter (context: Context, private val trips: List<Trip>) : Recyc
             // Hasn't arrived yet
             holder?.eta?.text = formatTime(service.departure_time_seconds - service.requestTime + service.delay)
         } else {
-            holder?.eta?.text = "LEFT"
+            holder?.eta?.text = "DUE"
         }
     }
 
