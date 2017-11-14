@@ -15,6 +15,7 @@ import java.util.*
 import kotlin.concurrent.fixedRateTimer
 import android.support.wearable.activity.ConfirmationActivity
 import android.content.Intent
+import android.graphics.Color
 import android.net.Uri
 import com.google.android.wearable.intent.RemoteIntent
 
@@ -49,6 +50,18 @@ class StopActivity : WearableActivity() {
         timer = fixedRateTimer("RefreshBoard", true,0, 20000) {
             populateRTBoard()
         }
+    }
+
+    override fun onEnterAmbient(ambientDetails: Bundle?) {
+        mainLayout.setBackgroundColor(Color.BLACK)
+        topHalf.setBackgroundColor(Color.BLACK)
+        super.onEnterAmbient(ambientDetails)
+    }
+
+    override fun onExitAmbient() {
+        mainLayout.setBackgroundColor(Color.parseColor("#1A237E"))
+        topHalf.setBackgroundColor(Color.parseColor("#3F51B5"))
+        super.onExitAmbient()
     }
 
     override fun onStop() {
