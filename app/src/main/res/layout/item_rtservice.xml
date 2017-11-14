@@ -11,8 +11,9 @@
 
     <LinearLayout
         android:id="@+id/serviceColour"
-        android:layout_width="55dp"
+        android:layout_width="8dp"
         android:layout_height="0dp"
+        android:layout_marginStart="55dp"
         android:orientation="horizontal"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -36,12 +37,10 @@
         android:id="@+id/shortName"
         android:layout_width="45dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="4dp"
-        android:layout_marginStart="6dp"
+        android:layout_marginEnd="6dp"
         android:textAlignment="textEnd"
         android:textAppearance="@android:style/TextAppearance.Material.Subhead"
-        app:layout_constraintEnd_toEndOf="@+id/serviceColour"
-        app:layout_constraintStart_toStartOf="@+id/serviceColour"
+        app:layout_constraintEnd_toStartOf="@+id/serviceColour"
         app:layout_constraintTop_toTopOf="@+id/destnShort"
         tools:text="WEST" />
 
@@ -84,7 +83,7 @@
         android:id="@+id/eta"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="15dp"
+        android:layout_marginEnd="10dp"
         android:textAppearance="@android:style/TextAppearance.Material.Menu"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/destnShort"
