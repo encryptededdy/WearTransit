@@ -67,9 +67,9 @@
                     style="@android:style/Widget.Material.Button.Borderless"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:drawableLeft="@drawable/ic_search_white_24dp"
+                    android:drawableLeft="@drawable/ic_location_city_white_24dp"
                     android:drawablePadding="0dp"
-                    android:text="Search" />
+                    android:text="Change City" />
             </LinearLayout>
         </LinearLayout>
     </ScrollView>

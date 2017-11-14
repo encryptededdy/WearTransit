@@ -101,6 +101,7 @@ class StopActivity : WearableActivity() {
         if (DataStore.savedStops.contains(stop)) {
             // Delete the stop
             DataStore.savedStops.remove(stop)
+            DataStore.writeData()
             starIcon.setImageDrawable(getDrawable(R.drawable.ic_star_border_white_24dp))
             starStopText.text = "Save this stop"
             val intent = Intent(this, ConfirmationActivity::class.java)
@@ -111,6 +112,7 @@ class StopActivity : WearableActivity() {
         } else {
             // Save the stop
             DataStore.savedStops.add(stop)
+            DataStore.writeData()
             starIcon.setImageDrawable(getDrawable(R.drawable.ic_star_white_24dp))
             starStopText.text = "Unsave this stop"
             val intent = Intent(this, ConfirmationActivity::class.java)
