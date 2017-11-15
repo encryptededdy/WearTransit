@@ -27,7 +27,7 @@ class StopActivity : WearableActivity() {
 
     lateinit var stop:Stop
 
-    lateinit var timer:Timer
+    private lateinit var timer:Timer
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -87,7 +87,7 @@ class StopActivity : WearableActivity() {
                     if (trips.isEmpty()) {
                         noServices.visibility = View.VISIBLE
                     } else {
-                        val adapter = ServiceRTAdapter(this@StopActivity, trips.sorted())
+                        val adapter = TripRecyclerAdapter(this@StopActivity, trips.sorted())
                         serviceRecycler.adapter = adapter
                         serviceRecycler.invalidate()
                     }

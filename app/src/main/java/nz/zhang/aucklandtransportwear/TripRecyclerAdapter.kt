@@ -17,7 +17,7 @@ import java.util.concurrent.TimeUnit
 /**
  * Created by Edward Zhang on 13/11/2017.
  */
-class ServiceRTAdapter (context: Context, private val trips: List<Trip>) : RecyclerView.Adapter<ServiceRTAdapter.ViewHolder>() {
+class TripRecyclerAdapter(context: Context, private val trips: List<Trip>) : RecyclerView.Adapter<TripRecyclerAdapter.ViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): ViewHolder {
         val context = parent?.context
         val inflater = LayoutInflater.from(context)

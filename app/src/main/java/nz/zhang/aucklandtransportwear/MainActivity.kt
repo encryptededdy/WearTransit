@@ -19,4 +19,9 @@ class MainActivity : WearableActivity() {
         val mapsIntent = Intent(this, MapsActivity::class.java)
         startActivity(mapsIntent)
     }
+
+    fun openFavourites(view: View) {
+        val favesIntent = Intent(this, StopsListActivity::class.java)
+        startActivity(favesIntent)
+    }
 }

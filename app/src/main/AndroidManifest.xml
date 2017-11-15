@@ -16,13 +16,12 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <application
+        android:name=".AucklandTransportWear"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@android:style/Theme.DeviceDefault"
-        android:name=".AucklandTransportWear">
-
+        android:theme="@android:style/Theme.DeviceDefault">
         <uses-library
             android:name="com.google.android.wearable"
             android:required="true" />
@@ -65,8 +64,15 @@
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
         </activity>
+        <activity android:name="android.support.wearable.activity.ConfirmationActivity"></activity>
         <activity
-            android:name="android.support.wearable.activity.ConfirmationActivity">
+            android:name=".StopsListActivity"
+            android:label="@string/title_activity_stops_list">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
     </application>
 

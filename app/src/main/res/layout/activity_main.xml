@@ -51,6 +51,7 @@
                     android:layout_height="wrap_content"
                     android:drawableLeft="@drawable/ic_list_white_24dp"
                     android:drawablePadding="0dp"
+                    android:onClick="openFavourites"
                     android:text="Favourites" />
 
                 <Button
