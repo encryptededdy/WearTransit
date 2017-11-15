@@ -10,9 +10,6 @@ class MainActivity : WearableActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-        // Enables Always-on
-        setAmbientEnabled()
     }
 
     fun openMaps(view: View) {

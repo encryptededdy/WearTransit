@@ -13,8 +13,6 @@ class StopsListActivity : WearableActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_stops_list)
-        // Enables Always-on
-        setAmbientEnabled()
         stopsListRecycler.layoutManager = LinearLayoutManager(this)
         stopsListRecycler.isNestedScrollingEnabled = false
         val filteredList = DataStore.savedStops.filter { it.stop_region == DataStore.selectedCity.shortCode }

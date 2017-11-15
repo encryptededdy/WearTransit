@@ -14,10 +14,6 @@ class CityPickerActivity : WearableActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_city_picker)
-
-        // Enables Always-on
-        setAmbientEnabled()
-
         val adapter = ArrayAdapter<Cities>(this, android.R.layout.simple_list_item_1, Cities.values())
         cityList.adapter = adapter
 

@@ -60,9 +60,6 @@ class MapsActivity : WearableActivity(), OnMapReadyCallback, GoogleMap.OnMarkerC
     public override fun onCreate(savedState: Bundle?) {
         super.onCreate(savedState)
 
-        // Enables always on.
-        setAmbientEnabled()
-
         setContentView(R.layout.activity_maps)
 
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
