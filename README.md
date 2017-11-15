@@ -1,12 +1,6 @@
-# ATWearApp
-Smartwatch App for Auckland Transport, for showing real-time boards on your Android Wear 2.0 watch.
+# WearTransit
+Smartwatch App for NZ Public Transport, for showing real-time boards on your Android Wear 2.0 watch. Supports saving favourite stops and opening up to view more info on your phone. Has a map for locating stops near you.
 
-No features are really done yet, but here are some screenshots from a watch I guess
+Use the ![Waka API](https://github.com/consindo/waka) for data (as it's way faster than the AT API). There is an old AT API based implementation near the beginning of the project if you're looking into how to use that.
 
-![mainmenu](https://i.imgur.com/SENImjT.png)
-![mapview](https://i.imgur.com/Q8Yw6my.png)
-![station](https://i.imgur.com/eey1fvh.png)
-![station2](https://i.imgur.com/HR6cPiq.png)
-![sq1](https://i.imgur.com/uqzweBt.png)
-![sq2](https://i.imgur.com/urAKEcw.png)
-![sq3](https://i.imgur.com/ZYaaOJu.png)
+![collage](https://raw.githubusercontent.com/encryptededdy/ATWearApp/master/collage.png)
