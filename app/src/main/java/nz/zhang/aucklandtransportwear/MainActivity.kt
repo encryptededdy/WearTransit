@@ -24,4 +24,9 @@ class MainActivity : WearableActivity() {
         val favesIntent = Intent(this, StopsListActivity::class.java)
         startActivity(favesIntent)
     }
+
+    fun openCities(view: View) {
+        val citiesIntent = Intent(this, CityPickerActivity::class.java)
+        startActivity(citiesIntent)
+    }
 }

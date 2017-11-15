@@ -9,4 +9,5 @@
     <string name="intro_text">Swipe edge to exit the map.</string>
     <string name="title_activity_stop">StopActivity</string>
     <string name="title_activity_stops_list">StopsListActivity</string>
+    <string name="title_activity_city_picker">CityPickerActivity</string>
 </resources>

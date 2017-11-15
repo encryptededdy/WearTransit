@@ -8,7 +8,7 @@
     android:layout_height="match_parent"
     android:background="#1A237E"
     android:padding="@dimen/box_inset_layout_padding"
-    tools:context="nz.zhang.aucklandtransportwear.StopActivity"
+    tools:context="nz.zhang.aucklandtransportwear.StopsListActivity"
     tools:deviceIds="wear">
 
     <ScrollView

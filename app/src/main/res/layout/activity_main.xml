@@ -70,6 +70,7 @@
                     android:layout_height="wrap_content"
                     android:drawableLeft="@drawable/ic_location_city_white_24dp"
                     android:drawablePadding="0dp"
+                    android:onClick="openCities"
                     android:text="Change City" />
             </LinearLayout>
         </LinearLayout>

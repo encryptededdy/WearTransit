@@ -64,10 +64,17 @@
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
         </activity>
-        <activity android:name="android.support.wearable.activity.ConfirmationActivity"></activity>
+        <activity android:name="android.support.wearable.activity.ConfirmationActivity" />
         <activity
             android:name=".StopsListActivity"
             android:label="@string/title_activity_stops_list">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".CityPickerActivity"
+            android:label="@string/title_activity_city_picker">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
