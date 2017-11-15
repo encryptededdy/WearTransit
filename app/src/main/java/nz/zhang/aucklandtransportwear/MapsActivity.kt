@@ -137,11 +137,6 @@ class MapsActivity : WearableActivity(), OnMapReadyCallback, GoogleMap.OnMarkerC
         toast.setGravity(Gravity.CENTER, 0, 0)
         toast.show()
 
-        // Adds a marker in Sydney, Australia and moves the camera.
-        val sydney = LatLng(-34.0, 151.0)
-        gMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
-        gMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))
-
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             locationAllowed = true
         } else {
