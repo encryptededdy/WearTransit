@@ -28,6 +28,17 @@
                 android:orientation="vertical"
                 android:paddingBottom="10dp">
 
+                <TextClock
+                    android:id="@+id/aodClock"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_weight="1"
+                    android:textAlignment="center"
+                    android:textAppearance="@android:style/TextAppearance.Material.Display1"
+                    android:visibility="gone"
+                    tools:text="benis" />
+
                 <ImageView
                     android:id="@+id/typeIcon"
                     android:layout_width="match_parent"

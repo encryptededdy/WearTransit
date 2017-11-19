@@ -55,12 +55,16 @@ class StopActivity : WearableActivity() {
     override fun onEnterAmbient(ambientDetails: Bundle?) {
         mainLayout.setBackgroundColor(Color.BLACK)
         topHalf.setBackgroundColor(Color.BLACK)
+        typeIcon.visibility = View.GONE
+        aodClock.visibility = View.VISIBLE
         super.onEnterAmbient(ambientDetails)
     }
 
     override fun onExitAmbient() {
         mainLayout.setBackgroundColor(Color.parseColor("#1A237E"))
         topHalf.setBackgroundColor(Color.parseColor("#3F51B5"))
+        typeIcon.visibility = View.VISIBLE
+        aodClock.visibility = View.GONE
         super.onExitAmbient()
     }
 
