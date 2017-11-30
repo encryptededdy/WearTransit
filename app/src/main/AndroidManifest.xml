@@ -73,6 +73,16 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".StopsListPickerActivity"
+            android:label="@string/StopsListPickerActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <action android:name="PROVIDER_CONFIG_ACTION"/>
+                <category android:name="android.support.wearable.complications.category.PROVIDER_CONFIG"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+        <activity
             android:name=".CityPickerActivity"
             android:label="@string/title_activity_city_picker">
             <intent-filter>
@@ -93,6 +103,10 @@
             <meta-data
                 android:name="android.support.wearable.complications.UPDATE_PERIOD_SECONDS"
                 android:value="0"/>
+            <meta-data
+                android:name="android.support.wearable.complications.PROVIDER_CONFIG_ACTION"
+                android:value="PROVIDER_CONFIG_ACTION"/>
+
         </service>
 
     </application>
