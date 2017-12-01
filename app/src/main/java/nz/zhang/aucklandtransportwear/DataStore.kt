@@ -12,10 +12,12 @@ import nz.zhang.aucklandtransportwear.wakaapi.Stop
 
 const val STOPS_KEY = "saved_stops"
 const val CITY_KEY = "selected_city"
+const val COMPLICATION_STOP_KEY = "complication_stop"
 
 object DataStore {
     var savedStops = ArrayList<Stop>()
     var selectedCity = Cities.AUCKLAND
+    var complicationStop: Stop? = null
 
     lateinit var sharedPrefs: SharedPreferences
 
@@ -32,12 +34,16 @@ object DataStore {
         if (city != null) {
             selectedCity = city
         }
+
+        // Get stop
+        complicationStop = Gson().fromJson(sharedPrefs.getString(COMPLICATION_STOP_KEY, ""), Stop::class.java)
     }
 
     fun writeData() {
         val editor = sharedPrefs.edit()
         editor.putString(STOPS_KEY, Gson().toJson(savedStops))
         editor.putString(CITY_KEY, Gson().toJson(selectedCity))
+        editor.putString(COMPLICATION_STOP_KEY, Gson().toJson(complicationStop))
         editor.apply()
     }
 }

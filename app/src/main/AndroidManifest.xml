@@ -73,12 +73,42 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".StopsListPickerActivity"
+            android:label="@string/StopsListPickerActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <action android:name="PROVIDER_CONFIG_ACTION"/>
+                <category android:name="android.support.wearable.complications.category.PROVIDER_CONFIG"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+        <activity
             android:name=".CityPickerActivity"
             android:label="@string/title_activity_city_picker">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
         </activity>
+        <service
+            android:name=".ComplicationProvider"
+            android:icon="@drawable/ic_pin_drop_white_24dp"
+            android:label="Favourite stop"
+            android:permission="com.google.android.wearable.permission.BIND_COMPLICATION_PROVIDER">
+            <intent-filter>
+                <action android:name="android.support.wearable.complications.ACTION_COMPLICATION_UPDATE_REQUEST"/>
+            </intent-filter>
+            <meta-data
+                android:name="android.support.wearable.complications.SUPPORTED_TYPES"
+                android:value="SHORT_TEXT"/>
+            <meta-data
+                android:name="android.support.wearable.complications.UPDATE_PERIOD_SECONDS"
+                android:value="0"/>
+            <meta-data
+                android:name="android.support.wearable.complications.PROVIDER_CONFIG_ACTION"
+                android:value="PROVIDER_CONFIG_ACTION"/>
+
+        </service>
+
     </application>
 
 </manifest>

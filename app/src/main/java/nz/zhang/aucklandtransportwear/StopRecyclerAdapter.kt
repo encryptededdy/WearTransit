@@ -17,7 +17,10 @@ import nz.zhang.aucklandtransportwear.wakaapi.StopType
 /**
  * Created by Edward Zhang on 13/11/2017.
  */
-class StopRecyclerAdapter(context: Context, private val stops: List<Stop>) : RecyclerView.Adapter<StopRecyclerAdapter.ViewHolder>() {
+// Constructor here is for when used in a picker view
+class StopRecyclerAdapter(context: Context, private val stops: List<Stop>, private val listPickerActivity: StopsListPickerActivity?) : RecyclerView.Adapter<StopRecyclerAdapter.ViewHolder>() {
+    constructor(context: Context, stops: List<Stop>) : this(context, stops, null) // Normal constructor for a non-picker view (ie. open the stops)
+
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): ViewHolder {
         val context = parent?.context
         val inflater = LayoutInflater.from(context)
@@ -42,9 +45,13 @@ class StopRecyclerAdapter(context: Context, private val stops: List<Stop>) : Rec
             StopType.FERRY -> holder?.stopIcon?.setImageDrawable(holder.stopIcon.context.getDrawable(R.drawable.ic_directions_boat_white_24dp))
         }
         holder?.backLayout?.setOnClickListener {
-            val stopIntent = Intent(holder?.backLayout?.context, StopActivity::class.java)
-            stopIntent.putExtra("stop", stop)
-            startActivity(holder?.backLayout?.context, stopIntent, null)
+            if (listPickerActivity != null) {
+                listPickerActivity.selectedStop(stop)
+            } else {
+                val stopIntent = Intent(holder?.backLayout?.context, StopActivity::class.java)
+                stopIntent.putExtra("stop", stop)
+                startActivity(holder?.backLayout?.context, stopIntent, null)
+            }
         }
     }
 
