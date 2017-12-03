@@ -26,6 +26,7 @@ import java.text.SimpleDateFormat
 import java.time.LocalTime
 import java.util.*
 import java.util.concurrent.TimeUnit
+import kotlin.concurrent.fixedRateTimer
 
 
 class CircularTimetable : WearableActivity() {
@@ -36,11 +37,21 @@ class CircularTimetable : WearableActivity() {
     private var encoderChange = 0f
     private var minute = 0
 
+    private lateinit var timer : Timer
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         stop = intent.getParcelableExtra("stop")
         setContentView(R.layout.activity_circular_timetable)
-        getRTData()
+        timer = fixedRateTimer("RefreshCircleBoard", true,0, 20000) {
+            getRTData()
+        }
+        loading.visibility = View.VISIBLE
+    }
+
+    override fun onStop() {
+        timer.cancel()
+        super.onStop()
     }
 
     override fun onGenericMotionEvent(event: MotionEvent?): Boolean {
@@ -61,7 +72,6 @@ class CircularTimetable : WearableActivity() {
     }
 
     private fun getRTData() {
-        loading.visibility = View.VISIBLE
         WakaAPI().getStopInfo(stop, object: StopInfoListener {
             override fun update(trips: List<Trip>?) {
                 if (trips != null) {
@@ -117,8 +127,12 @@ class CircularTimetable : WearableActivity() {
         paint.isAntiAlias = true
 
         val startAngle = 270 + (trip.departure_time_seconds - trip.requestTime)/10 + minute*6
-        paint.color = Color.parseColor(trip.route_color.padEnd(7, '0'))
+        // draw white highlight
+        paint.color = Color.parseColor("#3F51B5")
         canvas.drawArc(0f, 0f, width.toFloat(), height.toFloat(), startAngle.toFloat()-1, 9.5f, true, paint)
+
+        paint.color = Color.parseColor(trip.route_color.padEnd(7, '0')) // TODO: Deal with overlapping services
+        canvas.drawArc(0f, 0f, width.toFloat(), height.toFloat(), startAngle.toFloat(), 7.5f, true, paint)
 
         paint.color = Color.parseColor("#3F51B5")
         canvas.drawCircle((width/2).toFloat(), (height/2).toFloat(), radius.toFloat()-40, paint)
@@ -148,14 +162,21 @@ class CircularTimetable : WearableActivity() {
         clockText.text = ""
 
         displayedTrips.clear()
+
+        var lastAngle = -1 // used to detect double services
         trips.forEach {
             if (it.departure_time_seconds - it.requestTime < 3540) {
                 // Service is in the next hour and should be displayed
-                // TODO: Deal with overlapping services
                 displayedTrips.add(it)
                 val startAngle = 270 + (it.departure_time_seconds - it.requestTime)/10 + minute*6
                 paint.color = Color.parseColor(it.route_color.padEnd(7, '0'))
-                canvas.drawArc(0f, 0f, width.toFloat(), height.toFloat(), startAngle.toFloat(), 7.5f, true, paint)
+                if (lastAngle != startAngle) {
+                    canvas.drawArc(0f, 0f, width.toFloat(), height.toFloat(), startAngle.toFloat(), 7.5f, true, paint)
+                    lastAngle = startAngle
+                } else {
+                    // Draw half size (overlap)
+                    canvas.drawArc(0f, 0f, width.toFloat(), height.toFloat(), startAngle+3.75f, 3.75f, true, paint)
+                }
             }
         }
 
