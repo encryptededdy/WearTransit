@@ -25,6 +25,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="#3F51B5"
+                android:onClick="openCircularTimetable"
                 android:orientation="vertical"
                 android:paddingBottom="10dp">
 

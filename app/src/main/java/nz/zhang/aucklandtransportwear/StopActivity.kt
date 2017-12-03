@@ -18,9 +18,9 @@ import android.content.Intent
 import android.graphics.Color
 import android.net.Uri
 import com.google.android.wearable.intent.RemoteIntent
-
-
-
+import android.view.MotionEvent
+import android.support.v4.view.MotionEventCompat
+import android.util.Log
 
 
 class StopActivity : WearableActivity() {
@@ -137,5 +137,11 @@ class StopActivity : WearableActivity() {
                 ConfirmationActivity.OPEN_ON_PHONE_ANIMATION)
         animIntent.putExtra(ConfirmationActivity.EXTRA_MESSAGE, "Opened on Phone")
         startActivity(animIntent)
+    }
+
+    fun openCircularTimetable(view: View) {
+        val circularTTIntent = Intent(this, CircularTimetable::class.java)
+        circularTTIntent.putExtra("stop", stop)
+        startActivity(circularTTIntent)
     }
 }

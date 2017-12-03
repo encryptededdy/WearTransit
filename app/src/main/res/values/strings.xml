@@ -11,4 +11,5 @@
     <string name="title_activity_stops_list">StopsListActivity</string>
     <string name="title_activity_city_picker">CityPickerActivity</string>
     <string name="StopsListPickerActivity">StopsListPickerActivity</string>
+    <string name="title_activity_circular_timetable">CircularTimetable</string>
 </resources>

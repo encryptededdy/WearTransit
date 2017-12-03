@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<android.support.wear.widget.BoxInsetLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/timetableMainLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#1A237E"
+    android:padding="@dimen/box_inset_layout_padding"
+    tools:context="nz.zhang.aucklandtransportwear.CircularTimetable"
+    tools:deviceIds="wear">
+
+    <ImageView
+        android:id="@+id/chartImage"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <ImageView
+        android:id="@+id/popoutImage"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <ProgressBar
+        android:id="@+id/loading"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="50dp"
+        android:visibility="invisible" />
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="36dp"
+            android:layout_marginStart="36dp"
+            android:layout_marginTop="8dp"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/timeText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+                android:textAppearance="@android:style/TextAppearance.Material.Widget"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="10 min" />
+
+            <TextView
+                android:id="@+id/shortCodeText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+                android:textAppearance="@android:style/TextAppearance.Material.Title"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="WEST" />
+
+            <TextView
+                android:id="@+id/tripNameText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/timeText"
+                tools:text="Britomart Train Station to Papakura Train Station" />
+        </LinearLayout>
+
+    </android.support.constraint.ConstraintLayout>
+
+</android.support.wear.widget.BoxInsetLayout>
+
