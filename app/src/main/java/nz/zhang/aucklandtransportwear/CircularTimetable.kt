@@ -22,6 +22,7 @@ import android.util.Log
 import android.view.InputDevice
 import java.lang.Math.abs
 import java.sql.Time
+import java.text.SimpleDateFormat
 import java.time.LocalTime
 import java.util.*
 import java.util.concurrent.TimeUnit
@@ -117,12 +118,13 @@ class CircularTimetable : WearableActivity() {
 
         val startAngle = 270 + (trip.departure_time_seconds - trip.requestTime)/10 + minute*6
         paint.color = Color.parseColor(trip.route_color.padEnd(7, '0'))
-        canvas.drawArc(0f, 0f, width.toFloat(), height.toFloat(), startAngle.toFloat(), 7.5f, true, paint)
+        canvas.drawArc(0f, 0f, width.toFloat(), height.toFloat(), startAngle.toFloat()-1, 9.5f, true, paint)
 
         paint.color = Color.parseColor("#3F51B5")
-        canvas.drawCircle((width/2).toFloat(), (height/2).toFloat(), radius.toFloat()-50, paint)
+        canvas.drawCircle((width/2).toFloat(), (height/2).toFloat(), radius.toFloat()-40, paint)
 
         popoutImage.setImageBitmap(bitmap)
+        drawMinutesHand()
     }
 
     private fun drawTimetable(trips : List<Trip>) {
@@ -143,10 +145,11 @@ class CircularTimetable : WearableActivity() {
 
         minute = Calendar.getInstance().get(Calendar.MINUTE)
 
+        clockText.text = ""
 
         displayedTrips.clear()
         trips.forEach {
-            if (it.departure_time_seconds - it.requestTime < 3600) {
+            if (it.departure_time_seconds - it.requestTime < 3540) {
                 // Service is in the next hour and should be displayed
                 // TODO: Deal with overlapping services
                 displayedTrips.add(it)
@@ -162,14 +165,6 @@ class CircularTimetable : WearableActivity() {
         paint.color = Color.parseColor("#3F51B5")
         canvas.drawCircle((width/2).toFloat(), (height/2).toFloat(), radius.toFloat()-25, paint)
 
-        // Draw the minutes hand
-        paint.color = Color.WHITE
-        canvas.drawArc(0f, 0f, width.toFloat(), height.toFloat(), minute*6 + 270.toFloat(), -2.5f, true, paint)
-
-        // Draw the inner inner circle thing
-        paint.color = Color.parseColor("#3F51B5")
-        canvas.drawCircle((width/2).toFloat(), (height/2).toFloat(), radius.toFloat()-50, paint)
-
         chartImage.setImageBitmap(bitmap)
     }
 
@@ -183,9 +178,20 @@ class CircularTimetable : WearableActivity() {
 
         val paint = Paint()
         paint.style = Paint.Style.FILL
-        paint.color = Color.BLACK
+        paint.color = Color.WHITE
         paint.isAntiAlias = true
 
+        // Draw the minutes hand
+        canvas.drawArc(0f, 0f, width.toFloat(), height.toFloat(), minute*6 + 270.toFloat(), -2.5f, true, paint)
 
+        // Draw the inner inner circle thing
+        paint.color = Color.parseColor("#3F51B5")
+        canvas.drawCircle((width/2).toFloat(), (height/2).toFloat(), radius.toFloat()-50, paint)
+
+        minutesHandImage.setImageBitmap(bitmap)
+
+        // Update the onscreen clock
+        val df = SimpleDateFormat("h:mm a")
+        clockText.text = df.format(Calendar.getInstance().time)
     }
 }
