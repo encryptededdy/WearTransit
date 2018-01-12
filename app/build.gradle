@@ -10,8 +10,8 @@ android {
         applicationId "nz.zhang.aucklandtransportwear"
         minSdkVersion 25
         targetSdkVersion 26
-        versionCode 7
-        versionName "beta 1.4"
+        versionCode 8
+        versionName "beta 1.5"
     }
     buildTypes {
         release {
