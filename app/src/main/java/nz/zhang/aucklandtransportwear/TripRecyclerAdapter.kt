@@ -17,7 +17,7 @@ import java.util.concurrent.TimeUnit
 /**
  * Created by Edward Zhang on 13/11/2017.
  */
-class TripRecyclerAdapter(context: Context, private val trips: List<Trip>) : RecyclerView.Adapter<TripRecyclerAdapter.ViewHolder>() {
+class TripRecyclerAdapter(private val context: Context, private val trips: List<Trip>) : RecyclerView.Adapter<TripRecyclerAdapter.ViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val context = parent.context
         val inflater = LayoutInflater.from(context)
@@ -34,15 +34,15 @@ class TripRecyclerAdapter(context: Context, private val trips: List<Trip>) : Rec
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val service = trips[position]
-        if (service.trip_headsign.isNullOrBlank()) {
-            holder.destination_short.text = service.route_long_name
+        if (service.trip_headsign.isBlank()) {
+            holder.destinationShort.text = service.route_long_name
         } else {
-            holder.destination_short.text = service.trip_headsign
+            holder.destinationShort.text = service.trip_headsign
         }
         holder.shortName.text = service.route_short_name
         holder.destination.text = service.route_long_name
         holder.serviceColour.setBackgroundColor(Color.parseColor(service.route_color.padEnd(7, '0')))
-        if (!service.trip_headsign.isNullOrBlank()) {
+        if (service.trip_headsign.isNotBlank()) {
             // Don't offer the expanded view if there isn't one...
             holder.backLayout.setOnClickListener {
                 if (holder.destination.visibility == View.VISIBLE) {
@@ -65,7 +65,7 @@ class TripRecyclerAdapter(context: Context, private val trips: List<Trip>) : Rec
             // Hasn't arrived yet
             holder.eta.text = formatTime(service.departure_time_seconds - service.requestTime + service.delay)
         } else {
-            holder.eta.text = "DUE"
+            holder.eta.text = context.getString(R.string.service_time_due)
         }
     }
 
@@ -84,7 +84,7 @@ class TripRecyclerAdapter(context: Context, private val trips: List<Trip>) : Rec
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val shortName: TextView = itemView.shortName
         val destination: TextView = itemView.destn
-        val destination_short: TextView = itemView.destnShort
+        val destinationShort: TextView = itemView.destnShort
         val eta: TextView = itemView.eta
         val liveIcon: ImageView = itemView.liveIcon
         val backLayout: ConstraintLayout = itemView.backLayout

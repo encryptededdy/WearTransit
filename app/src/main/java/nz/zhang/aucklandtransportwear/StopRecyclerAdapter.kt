@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.content.ContextCompat.getDrawable
 import kotlinx.android.synthetic.main.item_stop.view.*
 import nz.zhang.aucklandtransportwear.wakaapi.Stop
 import nz.zhang.aucklandtransportwear.wakaapi.StopType
@@ -18,11 +19,11 @@ import nz.zhang.aucklandtransportwear.wakaapi.StopType
  * Created by Edward Zhang on 13/11/2017.
  */
 // Constructor here is for when used in a picker view
-class StopRecyclerAdapter(context: Context, private val stops: List<Stop>, private val listPickerActivity: StopsListPickerActivity?) : RecyclerView.Adapter<StopRecyclerAdapter.ViewHolder>() {
+class StopRecyclerAdapter(private val context: Context, private val stops: List<Stop>, private val listPickerActivity: StopsListPickerActivity?) : RecyclerView.Adapter<StopRecyclerAdapter.ViewHolder>() {
     constructor(context: Context, stops: List<Stop>) : this(context, stops, null) // Normal constructor for a non-picker view (ie. open the stops)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val context = parent?.context
+        val context = parent.context
         val inflater = LayoutInflater.from(context)
 
         // Inflate the custom layout
@@ -39,10 +40,11 @@ class StopRecyclerAdapter(context: Context, private val stops: List<Stop>, priva
         val stop = stops[position]
         holder.stopName.text = stop.stop_name
         holder.stopID.text = stop.stop_id
+        // TODO: Duplicate code from StopActivity
         when (stop.stopType()) {
-            StopType.TRAIN -> holder.stopIcon.setImageDrawable(holder.stopIcon.context.getDrawable(R.drawable.ic_train_white_24dp))
-            StopType.BUS -> holder.stopIcon.setImageDrawable(holder.stopIcon.context.getDrawable(R.drawable.ic_directions_bus_white_24dp))
-            StopType.FERRY -> holder.stopIcon.setImageDrawable(holder.stopIcon.context.getDrawable(R.drawable.ic_directions_boat_white_24dp))
+            StopType.TRAIN -> holder.stopIcon.setImageDrawable(getDrawable(context, R.drawable.ic_train_white_24dp))
+            StopType.BUS -> holder.stopIcon.setImageDrawable(getDrawable(context, R.drawable.ic_directions_bus_white_24dp))
+            StopType.FERRY -> holder.stopIcon.setImageDrawable(getDrawable(context, R.drawable.ic_directions_boat_white_24dp))
         }
         holder.backLayout.setOnClickListener {
             if (listPickerActivity != null) {

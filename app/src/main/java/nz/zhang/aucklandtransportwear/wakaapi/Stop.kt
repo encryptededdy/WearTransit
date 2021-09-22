@@ -44,7 +44,6 @@ class Stop (
         p0?.writeInt(route_type)
     }
 
-    // TODO: Is this safe?
     constructor(parcel: Parcel) : this(
             parcel.readString()!!, parcel.readString()!!, parcel.readDouble(), parcel.readDouble(),
             parcel.readString()!!, parcel.readInt())
