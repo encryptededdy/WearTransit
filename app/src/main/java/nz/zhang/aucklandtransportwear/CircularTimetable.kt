@@ -41,7 +41,7 @@ class CircularTimetable : WearableActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        stop = intent.getParcelableExtra("stop")
+        stop = intent.getParcelableExtra("stop")!!
         setContentView(R.layout.activity_circular_timetable)
         timer = fixedRateTimer("RefreshCircleBoard", true,0, 20000) {
             getRTData()

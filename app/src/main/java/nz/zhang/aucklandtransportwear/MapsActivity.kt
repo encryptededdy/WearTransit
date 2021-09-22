@@ -11,9 +11,9 @@ import com.google.android.gms.maps.MapFragment
 import com.google.android.gms.maps.OnMapReadyCallback
 
 import android.os.Bundle
-import android.support.v4.app.ActivityCompat
-import android.support.v4.content.ContextCompat
-import android.support.wear.widget.SwipeDismissFrameLayout
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
+import androidx.wear.widget.SwipeDismissFrameLayout
 import android.support.wearable.activity.WearableActivity
 import android.support.wearable.input.RotaryEncoder
 import android.util.Log
@@ -197,7 +197,7 @@ class MapsActivity : WearableActivity(), OnMapReadyCallback, GoogleMap.OnMarkerC
             }
             populateStops(lastKnownLocation)
         } catch (e: SecurityException) {
-            Log.e("Exception: %s", e.message)
+            Log.e("Exception: %s", e.message ?: e.toString())
         }
 
     }

@@ -1,7 +1,7 @@
 package nz.zhang.aucklandtransportwear
 
 import android.os.Bundle
-import android.support.v7.widget.LinearLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import android.support.wearable.activity.WearableActivity
 import android.view.View
 import com.jakewharton.threetenabp.AndroidThreeTen
@@ -19,7 +19,7 @@ import android.graphics.Color
 import android.net.Uri
 import com.google.android.wearable.intent.RemoteIntent
 import android.view.MotionEvent
-import android.support.v4.view.MotionEventCompat
+import androidx.core.view.MotionEventCompat
 import android.util.Log
 
 
@@ -35,7 +35,7 @@ class StopActivity : WearableActivity() {
         AndroidThreeTen.init(this)
         // Enables Always-on
         setAmbientEnabled()
-        stop = intent.getParcelableExtra("stop")
+        stop = intent.getParcelableExtra("stop")!!
         // Stop saving icon status
         if (DataStore.savedStops.contains(stop)) {
             starIcon.setImageDrawable(getDrawable(R.drawable.ic_star_white_24dp))

@@ -1,7 +1,7 @@
 package nz.zhang.aucklandtransportwear
 
 import android.os.Bundle
-import android.support.v7.widget.LinearLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import android.support.wearable.activity.WearableActivity
 import kotlinx.android.synthetic.main.activity_stops_list.*
 import nz.zhang.aucklandtransportwear.wakaapi.Stop

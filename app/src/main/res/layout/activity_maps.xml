@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<android.support.wear.widget.SwipeDismissFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.wear.widget.SwipeDismissFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:map="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/swipe_dismiss_root_container"
@@ -20,4 +20,4 @@
             android:layout_height="match_parent" />
 
     </FrameLayout>
-</android.support.wear.widget.SwipeDismissFrameLayout>
+</androidx.wear.widget.SwipeDismissFrameLayout>

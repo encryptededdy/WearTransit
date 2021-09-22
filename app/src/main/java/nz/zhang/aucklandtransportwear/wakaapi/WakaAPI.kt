@@ -37,7 +37,7 @@ class WakaAPI {
 
             override fun onFailure(call: Call<WakaResponse>?, t: Throwable?) {
                 listener.update(null)
-                Log.e("Waka API", t?.message)
+                Log.e("Waka API", t?.message ?: t.toString())
             }
 
         })
@@ -58,7 +58,7 @@ class WakaAPI {
 
             override fun onFailure(call: Call<List<Stop>>?, t: Throwable?) {
                 listener.update(null)
-                Log.e("Waka API", t?.message)
+                Log.e("Waka API", t?.message ?: t.toString())
             }
 
         })

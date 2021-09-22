@@ -44,9 +44,10 @@ class Stop (
         p0?.writeInt(route_type)
     }
 
+    // TODO: Is this safe?
     constructor(parcel: Parcel) : this(
-            parcel.readString(), parcel.readString(), parcel.readDouble(), parcel.readDouble(),
-            parcel.readString(), parcel.readInt())
+            parcel.readString()!!, parcel.readString()!!, parcel.readDouble(), parcel.readDouble(),
+            parcel.readString()!!, parcel.readInt())
 
     companion object CREATOR : Parcelable.Creator<Stop> {
         override fun createFromParcel(parcel: Parcel): Stop {
